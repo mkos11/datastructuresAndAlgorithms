@@ -28,5 +28,4 @@ while stack:
     else:
         break
 if stack: print('NO')
-else:
-    for x in res: print(x)
+else: print('\n'.join(res))
