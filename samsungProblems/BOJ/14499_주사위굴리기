@@ -1,3 +1,4 @@
+# https://www.acmicpc.net/problem/14499
 dice = [0] * 6
 #방향 변화, 0:위, 1:뒤, 2:오, 3:왼, 4:앞, 5:아래
 changeDirection = [[],
