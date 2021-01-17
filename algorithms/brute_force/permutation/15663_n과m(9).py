@@ -1,4 +1,28 @@
 # https://www.acmicpc.net/problem/15663
+
+from collections import*
+def solve(cnt):
+    if cnt == m:
+        for i in range(m):
+            print(q[i], end=' ')
+        print()
+        return
+    prev = -1
+    for i in range(n):
+        if not visit[i] and prev != arr[i]:
+            visit[i] = 1
+            q.append(arr[i])
+            solve(cnt+1)
+            visit[i] = 0
+            q.pop()
+            prev = arr[i]
+n, m = map(int,input().split())
+arr = list(map(int, input().split()))
+arr.sort()
+visit=[0]*n
+q=deque()
+solve(0)
+'''
 # 굳이 사전 안써도 풀수있을듯??
 from collections import*
 def solve(cnt):
@@ -28,3 +52,4 @@ for key, value in dic.items():
     for x in key:
         print(x, end=' ')
     print()
+'''

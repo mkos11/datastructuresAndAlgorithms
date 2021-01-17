@@ -1,4 +1,28 @@
 # https://www.acmicpc.net/problem/15664
+from collections import*
+def solve(pos, cnt):
+    if cnt == m:
+        for i in range(m):
+            print(q[i], end=' ')
+        print()
+        return
+    prev = -1
+    for i in range(pos, n):
+        if not visit[i] and prev != arr[i]:
+            visit[i] = 1
+            q.append(arr[i])
+            solve(i, cnt+1)
+            q.pop()
+            visit[i] = 0
+            prev = arr[i]
+n, m = map(int,input().split())
+arr = list(map(int,input().split()))
+arr.sort()
+visit=[0]*n
+q=deque()
+solve(0, 0)
+
+'''
 # 이것도 사전 없이 처리 가능할듯
 from collections import*
 def solve(pos, cnt):
@@ -29,3 +53,4 @@ for key, value in dic.items():
     for x in key:
         print(x, end=' ')
     print()
+'''
