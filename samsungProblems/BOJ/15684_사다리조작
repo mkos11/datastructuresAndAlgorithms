@@ -1,6 +1,5 @@
 # https://www.acmicpc.net/problem/15684
-# import sys
-# sys.stdin = open('../../test.txt')
+
 def check():
     for i in range(m):
         loc = i
