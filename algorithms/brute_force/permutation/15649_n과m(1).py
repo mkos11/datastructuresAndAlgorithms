@@ -10,22 +10,20 @@ for p in permutations(range(1, n+1), m):
         print(x, end= ' ')
     print()
 '''
-from collections import*
 def solve(cnt):
-    global q
     if cnt == m:
         for i in range(m):
-            print(q[i]+1, end=' ')
+            print(stack[i]+1, end=' ')
         print()
         return
     for i in range(n):
         if not visit[i]:
             visit[i] = 1
-            q.append(i)
+            stack.append(i)
             solve(cnt+1)
-            q.pop()
+            stack.pop()
             visit[i] = 0
 n ,m = map(int,input().split())
 visit = [0]*n
-q=deque()
+stack = []
 solve(0)

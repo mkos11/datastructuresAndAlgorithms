@@ -1,19 +1,18 @@
 # n과m(8)
 # https://www.acmicpc.net/problem/15657
-from collections import*
 def solve(pos, cnt):
     if cnt == m:
         for i in range(m):
-            print(q[i], end=' ')
+            print(stack[i], end=' ')
         print()
         return
     for i in range(pos, n):
-        q.append(arr[i])
+        stack.append(arr[i])
         solve(i, cnt+1)
-        q.pop()
+        stack.pop()
     return
 n, m = map(int,input().split())
-q=deque()
+stack = []
 arr = list(map(int,input().split()))
 arr.sort()
 solve(0, 0)
