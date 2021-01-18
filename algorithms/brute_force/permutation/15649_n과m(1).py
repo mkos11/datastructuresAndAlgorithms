@@ -1,3 +1,4 @@
+# n과m(1)
 # https://www.acmicpc.net/problem/15649
 '''
 # 라이브러리 사용

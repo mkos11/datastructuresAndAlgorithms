@@ -1,3 +1,4 @@
+# n과m(8)
 # https://www.acmicpc.net/problem/15657
 from collections import*
 def solve(pos, cnt):

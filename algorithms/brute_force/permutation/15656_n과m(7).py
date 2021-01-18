@@ -1,3 +1,4 @@
+# n과m(7)
 # https://www.acmicpc.net/problem/15656
 from collections import*
 def solve(cnt):

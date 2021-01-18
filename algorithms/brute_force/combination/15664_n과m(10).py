@@ -1,5 +1,5 @@
-# https://www.acmicpc.net/problem/15666
-
+# n과m(10)
+# https://www.acmicpc.net/problem/15664
 from collections import*
 def solve(pos, cnt):
     if cnt == m:
@@ -9,16 +9,20 @@ def solve(pos, cnt):
         return
     prev = -1
     for i in range(pos, n):
-        if prev != arr[i]:
+        if not visit[i] and prev != arr[i]:
+            visit[i] = 1
             q.append(arr[i])
             solve(i, cnt+1)
             q.pop()
+            visit[i] = 0
             prev = arr[i]
 n, m = map(int,input().split())
 arr = list(map(int,input().split()))
 arr.sort()
+visit=[0]*n
 q=deque()
 solve(0, 0)
+
 '''
 # 이것도 사전 없이 처리 가능할듯
 from collections import*
@@ -32,11 +36,15 @@ def solve(pos, cnt):
             dic[temp] = 1
         return
     for i in range(pos, n):
-        q.append(arr[i])
-        solve(i, cnt+1)
-        q.pop()
+        if not visit[i]:
+            visit[i] = 1
+            q.append(arr[i])
+            solve(i, cnt+1)
+            visit[i] = 0
+            q.pop()
 
 n, m = map(int,input().split())
+visit=[0]*n
 arr = list(map(int,input().split()))
 arr.sort()
 q=deque()

@@ -1,3 +1,4 @@
+# n과m(2)
 # https://www.acmicpc.net/problem/15650
 '''
 # 선택 하거나 선택 안하거나
