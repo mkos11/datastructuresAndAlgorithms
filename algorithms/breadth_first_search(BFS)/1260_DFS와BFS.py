@@ -25,15 +25,20 @@ def bfs(u):
 
 n, m, s = map(int,input().split())
 n+=1
-connected = {}
+# connected = {}
+connected = [[0] * n for _ in range(n)]
 adj = [[]*(n) for _ in range(n)]
 for i in range(m):
     #x, y 크기순으로 강제해서 그 쌍으로 중복 제거
     x, y = map(int,input().split())
     if x > y: x, y = y, x
-    if (x, y) in connected:
-        continue
-    connected[(x, y)]=True
+    # dict() 사용해도 되고
+    # if (x, y) in connected:
+    #     continue
+    # connected[(x, y)]=True
+    # 이차원 배열로 체크해도 되고
+    if connected[x][y]: continue
+    connected[x][y] = 1
     adj[x].append(y)
     adj[y].append(x)
 for i in range(n):
