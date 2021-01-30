@@ -1,26 +1,26 @@
 # n과m(9)
 # https://www.acmicpc.net/problem/15663
-
 def solve(cnt):
     if cnt == m:
-        for i in range(m):
-            print(stack[i], end=' ')
+        for i in range(n):
+            if(used[i]):
+                print(used[i], end=' ')
         print()
         return
     prev = -1
     for i in range(n):
         if not visit[i] and prev != arr[i]:
             visit[i] = 1
-            stack.append(arr[i])
+            used[cnt] = arr[i]
             solve(cnt+1)
             visit[i] = 0
-            stack.pop()
+            used[cnt] = 0
             prev = arr[i]
 n, m = map(int,input().split())
 arr = list(map(int, input().split()))
 arr.sort()
-visit=[0]*n
-stack = []
+visit = [0]*n
+used = [0]*n
 solve(0)
 '''
 # 굳이 사전 안써도 풀수있을듯??
