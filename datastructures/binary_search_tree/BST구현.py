@@ -3,9 +3,14 @@ class Node:
         self.data = data
         self.left = self.right = None
 
+    # java에서 toString() 기능
+    def __str__(self):
+        return str(self.data)
+
 class BST:
     def __init__(self):
         self.root = None
+
     def push(self, data):
         self.root = self._push(self.root, data)
     def _push(self, node, data):
@@ -20,7 +25,7 @@ class BST:
     def pop(self, data):
         return self._pop(self.find(data))
     # 양쪽 자식 있으면 오른쪽 서브트리 중 가장 작은거 삭제해줄거
-    def _pop(self, node, data):
+    def _pop(self, node):
         deletedNode = None
         if node is not None:
             deletedNode = node
@@ -54,3 +59,16 @@ class BST:
             return self._find(node.left, data)
 
     # 순회도 추가하기 (preorder, inoredr, postorder, levelorder)
+
+if __name__ == "__main__":
+    # test
+    arr = [3 ,1 ,5, -32, 61, 223, 41, 53, 62]
+    bst = BST()
+    for x in arr: bst.push(x)
+    print(bst.find(1))
+    print(bst.find(2))
+    
+    # pop() 문제있는데? 다시 고치기
+    print(bst.pop(1))
+    print(bst.pop(1))
+
