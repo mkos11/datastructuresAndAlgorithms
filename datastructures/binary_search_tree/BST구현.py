@@ -4,7 +4,7 @@ class Node:
         self.data = data
         self.left = self.right = None
 
-    # java에서 toString() 기능
+    # java에서 toString() 기능, tip: ctrl + o 하면 메서드 오버라이드 하는 창 나옴
     def __str__(self):
         return str(self.data)
 
