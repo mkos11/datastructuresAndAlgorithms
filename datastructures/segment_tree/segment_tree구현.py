@@ -57,5 +57,6 @@ for i in range(n):
 segmentTree = SegmentTree(data)
 for i in range(m+k):
     f, u, v = map(int, input().split())
-    if f == 1: segmentTree.update(u-1, v)
-    else: print(segmentTree.cal(u-1, v-1))
+    # start, end 범위를 0 ~ n-1로 쓰고, base case에서 data[idx]를 리턴하므로 인덱스 하나 낮춰서 보내줌
+    if f == 1: segmentTree.update(u - 1, v)
+    else: print(segmentTree.cal(u - 1, v - 1))
