@@ -15,35 +15,24 @@ class Node:
     def __init__(self, data):
         self.data = data
         self.left = self.right = None
-        self.height = 0
+        self.height = 1
     def __str__(self):
         return f"data: {self.data}, height: {self.height}"
 class AVLTree:
     def __init__(self):
         self.root = None
 
-    # 이 부분 보완하기(이진트리 콘솔에 이쁘게 출려되도록)
+    # 이 부분 보완하기(이진트리 콘솔에 이쁘게 출력되도록)
     def __str__(self):
+        return self.printTree("", self.root, False)
+    def printTree(self, prefix, node, isLeft):
         res = ""
-        q = deque()
-        q.append(self.root)
-        resq = deque([q])
-        while q:
-            lq = len(q)
-            tempq = deque()
-            for i in range(lq):
-                node = q.popleft()
-                tempq.append(node)
-                if node.left:
-                    q.append(node.left)
-                if node.right:
-                    q.append(node.right)
-            resq.append(tempq)
-        for q in resq:
-            for x in q:
-                res += str(x.data) + " "
-            res += '\n'
+        if node is not None:
+            res += f"{prefix}" + ("|-- " if isLeft else "\\-- ") + f"{node.data}\n"
+            res += self.printTree(prefix + ("|   " if isLeft else "    "), node.left, True)
+            res += self.printTree(prefix + ("|   " if isLeft else "    "), node.right, False)
         return res
+
     def getHeight(self, node):
         if node is None: return 0
         return node.height
@@ -121,28 +110,30 @@ class AVLTree:
                 # 조건 정하고 다시 while문 처리
                 while child.left is not None:
                     parent, child = child, child.left
+                child.left = node.left
                 if node != parent:
                     parent.left = child.right
                     child.right = node.right
                 node = child
-            # 왼쪽만 있음
-            elif node.left:
-                node = node.left
-            # 오른쪽만 있음
-            elif node.right:
-                node = node.right
+            # 왼쪽 or 오른쪽
+            elif node.left or node.right:
+                node = node.left or node.right
             # 자식 없음
             else:
                 node = None
+                return node, deletedNode
         elif data < node.data:
-            node.left = self._pop(node.left, data)
+            node.left, deletedNode = self._pop(node.left, data)
         else:
-            node.right = self._pop(node.right, data)
+            node.right, deletedNode = self._pop(node.right, data)
         return self.balance(node), deletedNode
 
 if __name__ == "__main__":
     avlTree = AVLTree()
-    data = [i for i in range(1, 21)]
+    data = [i for i in range(1, 16)]
     for x in data:
         avlTree.push(x)
+    print(avlTree)
+    for x in data[:5]:
+        avlTree.pop(x)
     print(avlTree)
