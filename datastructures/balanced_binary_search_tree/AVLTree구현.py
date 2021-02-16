@@ -9,20 +9,20 @@
 # 일단 BST 구현하고, 추가되어야 할것들 생각해보기(node높이)
 # 생각보다 구현이 좀 더 빡세네 ??ㅎㅎ;;
 
-# 트리 객체 __str__ 오버라이딩 할껀데 level-order로 출력할거라 collections import
-from collections import*
 class Node:
     def __init__(self, data):
         self.data = data
         self.left = self.right = None
         self.height = 1
+    # 노드 str 오버라이딩 해놓으니까 디버깅 할때도 좋더라
     def __str__(self):
         return f"data: {self.data}, height: {self.height}"
+
 class AVLTree:
     def __init__(self):
         self.root = None
 
-    # 이 부분 보완하기(이진트리 콘솔에 이쁘게 출력되도록)
+    # 이진트리 콘솔에 이쁘게 출력되도록
     def __str__(self):
         return self.printTree("", self.root, False)
     def printTree(self, prefix, node, isLeft):
