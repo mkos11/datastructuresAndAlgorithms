@@ -1,12 +1,16 @@
 # 왼쪽, 오른쪽 서브트리 높이 차 1이하
 # LL, RR, LR, RL 그려보면 됨
-# 함수 insert, delete, search, leftRotate, rightRotate 만들면 될듯?
+# 함수 push, pop, rotate(LL, RR, LR, RL), balance, getHeight, getDifference
 
 # 삽입: 기냥 이진탐색트리대로 삽입하고 불균형 생기면 해소 시켜줌!
 # 삭제: 기냥 이진탐색트리대로 삭제하고 불균형 생기면 해소 시켜줌!
 # 회전: 그려보면 됨
 
-# 일단 BST 구현하고, 추가되어야 할것들 생각해보기(leftRotation, rightRotation 연산이랑 node에 높이?)
+# 일단 BST 구현하고, 추가되어야 할것들 생각해보기(node높이)
+# 생각보다 구현이 좀 더 빡세네 ??ㅎㅎ;;
+
+# 트리 객체 __str__ 오버라이딩 할껀데 level-order로 출력할거라 collections import
+from collections import*
 class Node:
     def __init__(self, data):
         self.data = data
@@ -18,15 +22,89 @@ class AVLTree:
     def __init__(self):
         self.root = None
 
+    # 이 부분 보완하기(이진트리 콘솔에 이쁘게 출려되도록)
+    def __str__(self):
+        res = ""
+        q = deque()
+        q.append(self.root)
+        resq = deque([q])
+        while q:
+            lq = len(q)
+            tempq = deque()
+            for i in range(lq):
+                node = q.popleft()
+                tempq.append(node)
+                if node.left:
+                    q.append(node.left)
+                if node.right:
+                    q.append(node.right)
+            resq.append(tempq)
+        for q in resq:
+            for x in q:
+                res += str(x.data) + " "
+            res += '\n'
+        return res
+    def getHeight(self, node):
+        if node is None: return 0
+        return node.height
+
+    def getDifference(self, node):
+        if node is None: return 0
+        return self.getHeight(node.left) - self.getHeight(node.right)
+
+    def balance(self, node):
+        diff = self.getDifference(node)
+        if diff >= 2:
+            # LL
+            if self.getDifference(node.left) >= 1:
+                node = self.rotateLL(node)
+            # LR
+            else:
+                node = self.rotateLR(node)
+        elif diff <= -2:
+            # RR
+            if self.getDifference(node.right) <= -1:
+                node = self.rotateRR(node)
+            # RL
+            else:
+                node = self.rotateRL(node)
+        # left or right None이면? => 그래서 getHeight() 만들어서 None은 0으로 처리
+        node.height = max(self.getHeight(node.left), self.getHeight(node.right)) + 1
+        return node
+
+    def roatateLL(self, node):
+        leftNode = node.left
+        node.left = leftNode.right
+        leftNode.right = node
+        node.height = max(self.getHeight(node.left), self.getHeight(node.right)) + 1
+        return leftNode
+
+    def rotateRR(self, node):
+        rightNode = node.right
+        node.right = rightNode.left
+        rightNode.left = node
+        node.height = max(self.getHeight(node.left), self.getHeight(node.right)) + 1
+        return rightNode
+
+    def rotateLR(self, node):
+        leftNode = node.left
+        node.left = self.rotateRR(leftNode)
+        return self.roatateLL(node)
+
+    def rotateRL(self, node):
+        rightNode = node.right
+        node.right = self.roatateLL(rightNode)
+        return self.rotateRR(node)
+
     def push(self, data):
-        self.root = self._push(self, self.root, data)
+        self.root = self._push(self.root, data)
     def _push(self, node, data):
         if node is None: return Node(data)
         if data < node.data:
             node.left = self._push(node.left, data)
         else:
             node.right = self._push(node.right, data)
-        return node
+        return self.balance(node)
 
     def pop(self, data):
         self.root, deletedNode = self._pop(self.root, data)
@@ -60,4 +138,11 @@ class AVLTree:
             node.left = self._pop(node.left, data)
         else:
             node.right = self._pop(node.right, data)
-        return node, deletedNode
+        return self.balance(node), deletedNode
+
+if __name__ == "__main__":
+    avlTree = AVLTree()
+    data = [i for i in range(1, 21)]
+    for x in data:
+        avlTree.push(x)
+    print(avlTree)
