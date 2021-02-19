@@ -60,8 +60,13 @@ case 4:
     - x의 부모에 대하여 left-rotation
     - x의 extra-black을 제거하고 종료
 '''
+
+# 구현... AVL트리야 다시보니 선녀였구나..
+
 BLACK = True
 RED = False
+RIGHT = True
+LEFT = False
 class Node:
     def __init__(self, data):
         self.data = data
@@ -82,6 +87,51 @@ class RedBlackTree:
             res += self.printTree(prefix + ("|   " if isLeft else "    "), node.left, True)
             res += self.printTree(prefix + ("|   " if isLeft else "    "), node.right, False)
         return res
+
+    def leftRotation(self):
+        return
+
+    def rightRotation(self):
+        return
+
+    def getDirection(self, node):
+        if node == node.parent.left: return LEFT
+        if node == node.parent.right: return RIGHT
+
+    def pushFixup(self, node):
+        while node.parent != self.root and node.parent.color == RED:
+            direction = self.getDirection(node.parent)
+            if direction == LEFT:
+                uncle = node.parent.parent.right
+                # case 1
+                if uncle.color == RED:
+                    node.parent.color = uncle.color = BLACK
+                    node.parent = RED
+                    node = node.parent.parent
+                    node.right = uncle      #uncle 변수처럼 사용해서 다시 노드에 붙여줌
+                # case 2
+                elif uncle.color == BLACK and self.getDirection(node) == RIGHT:
+                    node = self.leftRotation(node.parent)
+                # case 3
+                elif uncle.color == BLACK and self.getDirection(node) == LEFT:
+                    # 스왑해도 되는데 그냥 이렇게 해주는게 더 이쁜듯
+                    node.parent.color = BLACK
+                    node.parent.parent.color = RED
+                    node = self.rightRotation(node.parent.parent)
+            # 방향 오른쪽, 위랑 그냥 대칭
+            else:
+                uncle = node.parent.parent.left
+                if uncle.color == RED:
+                    node.parent.color = uncle.color = BLACK
+                    node.parent = RED
+                    node = node.parent.parent
+                    node.left = uncle
+                elif uncle.color == BLACK and self.getDirection(node) == LEFT:
+                    node = self.rightRotation(node.parent)
+                elif uncle.color == BLACK and self.getDirection(node) == RIGHT:
+                    node.parent.color = BLACK
+                    node.parent.parent.color = RED
+                    node = self.rightRotation(node.parent.parent)
 
     def push(self, data):
         self.root = self._push(self.root, data)
