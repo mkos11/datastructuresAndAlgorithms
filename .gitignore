@@ -132,3 +132,4 @@ venv/
 .idea/
 
 test.py
+testInput.txt
