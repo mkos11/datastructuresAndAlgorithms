@@ -68,11 +68,11 @@ RED = False
 RIGHT = True
 LEFT = False
 class Node:
-    def __init__(self, data):
+    def __init__(self, data, color=RED):
         self.data = data
         self.left = self.right = None
         self.parent = None
-        self.color = RED
+        self.color = color
 
 class RedBlackTree:
     def __init__(self):
@@ -88,32 +88,62 @@ class RedBlackTree:
             res += self.printTree(prefix + ("|   " if isLeft else "    "), node.right, False)
         return res
 
-    def leftRotation(self):
-        return
+    # parent도 봐꿔줘야함, 그려보면 parent 총 3개 바뀜, 자식 총 2개 바뀜
+    def leftRotation(self, node):
+        rightNode = node.right
+        node.right = rightNode.left
+        rightNode.left.parent = node
+        rightNode.parent = node.parent
+        if node.parent is not None:
+            self.root = rightNode
+        elif node == node.parent.left:
+            node.parent.left = rightNode
+        else:
+            node.parent.right = rightNode
+        rightNode.left = node
+        node.parent = rightNode
+        return node
 
-    def rightRotation(self):
-        return
+    def rightRotation(self, node):
+        leftNode = node.left
+        node.left = leftNode.right
+        leftNode.right.parent = node
+        leftNode.parent = node.parent
+        if node.parent is not None:
+            self.root = leftNode
+        elif node == node.parent.left:
+            node.parent.right = leftNode
+        else:
+            node.parent.left = leftNode
+        leftNode.right = node
+        node.parent = leftNode
+        return node
 
     def getDirection(self, node):
         if node == node.parent.left: return LEFT
         if node == node.parent.right: return RIGHT
 
+    def getColor(self, node):
+        if node is None: return BLACK
+        return node.color
+
     def pushFixup(self, node):
-        while node.parent != self.root and node.parent.color == RED:
+        if node.parent is None: return node
+        while node.parent != self.root and self.getColor(node.parent) == RED:
             direction = self.getDirection(node.parent)
             if direction == LEFT:
                 uncle = node.parent.parent.right
                 # case 1
-                if uncle.color == RED:
+                if self.getColor(uncle) == RED:
                     node.parent.color = uncle.color = BLACK
                     node.parent = RED
                     node = node.parent.parent
                     node.right = uncle      #uncle 변수처럼 사용해서 다시 노드에 붙여줌
                 # case 2
-                elif uncle.color == BLACK and self.getDirection(node) == RIGHT:
+                elif self.getColor(uncle) == BLACK and self.getDirection(node) == RIGHT:
                     node = self.leftRotation(node.parent)
                 # case 3
-                elif uncle.color == BLACK and self.getDirection(node) == LEFT:
+                elif self.getColor(uncle) == BLACK and self.getDirection(node) == LEFT:
                     # 스왑해도 되는데 그냥 이렇게 해주는게 더 이쁜듯
                     node.parent.color = BLACK
                     node.parent.parent.color = RED
@@ -121,27 +151,34 @@ class RedBlackTree:
             # 방향 오른쪽, 위랑 그냥 대칭
             else:
                 uncle = node.parent.parent.left
-                if uncle.color == RED:
+                if self.getColor(uncle) == RED:
                     node.parent.color = uncle.color = BLACK
                     node.parent = RED
                     node = node.parent.parent
                     node.left = uncle
-                elif uncle.color == BLACK and self.getDirection(node) == LEFT:
+                elif self.getColor(uncle) == BLACK and self.getDirection(node) == LEFT:
                     node = self.rightRotation(node.parent)
-                elif uncle.color == BLACK and self.getDirection(node) == RIGHT:
+                elif self.getColor(uncle) == BLACK and self.getDirection(node) == RIGHT:
                     node.parent.color = BLACK
                     node.parent.parent.color = RED
                     node = self.rightRotation(node.parent.parent)
+        self.root.color = BLACK
+        return node
 
     def push(self, data):
         self.root = self._push(self.root, data)
     def _push(self, node, data):
         if node is None:
+            # 노드 하나만 들어갔을때 그 시점에는 빨간 노드라 그거 그냥 따로 처리해줌
+            if node == self.root: return Node(data, BLACK)
             return Node(data)
         if data < node.data:
             node.left = self._push(node.left, data)
+            node.left.parent = node
         else:
             node.right = self._push(node.right, data)
+            node.right.parent = node
+        self.pushFixup(node)
         return node
 
     def pop(self, data):
@@ -178,3 +215,5 @@ if __name__ == "__main__":
     print(redBlackTree)
     for x in data[:-5]: redBlackTree.pop(x)
     print(redBlackTree)
+
+# 레드블랙트리 개념 출처 - https://www.youtube.com/watch?v=98g_cnvbyqA
