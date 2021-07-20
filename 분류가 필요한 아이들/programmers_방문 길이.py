@@ -1,5 +1,4 @@
 # https://programmers.co.kr/learn/courses/30/lessons/49994
-
 def solution(dirs):
     n = 5
     dir_set = set()
