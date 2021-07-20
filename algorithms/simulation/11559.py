@@ -1,5 +1,5 @@
 # https://www.acmicpc.net/problem/11559
-# 뿌요뿌요~
+# 시뮬레이션
 from collections import *
 dd = [(0, 1), (0, -1), (-1, 0), (1, 0)]
 def bfs(x, y, visit):

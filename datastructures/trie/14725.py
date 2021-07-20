@@ -18,7 +18,7 @@ class Trie:
 
     def draw(self, node, depth):
         for child in sorted(node.child):
-            print(('--'*depth) + child)
+            print(('-W-'*depth) + child)
             self.draw(node.child[child], depth+1)
 
 n = int(input())

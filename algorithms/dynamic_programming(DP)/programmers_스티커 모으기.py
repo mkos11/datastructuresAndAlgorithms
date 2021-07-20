@@ -1,4 +1,5 @@
 # https://programmers.co.kr/learn/courses/30/lessons/12971
+# dp
 # prev == 0 이전 스티커 안뗌, 1 이전 스티커 뗌
 from sys import *
 setrecursionlimit(10 ** 6)

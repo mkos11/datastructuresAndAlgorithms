@@ -1,4 +1,5 @@
 # https://www.acmicpc.net/problem/1062
+# 완탐, 문자열
 def check(word, curr_set):
     for w in word:
         if w not in curr_set: return False

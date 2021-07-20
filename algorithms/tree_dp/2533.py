@@ -1,4 +1,5 @@
-# 2533
+# https://www.acmicpc.net/problem/2533
+# 트리dp
 from sys import *
 setrecursionlimit(10**6)
 input = lambda: stdin.readline().rstrip()

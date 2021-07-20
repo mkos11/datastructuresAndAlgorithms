@@ -1,4 +1,5 @@
 # https://www.acmicpc.net/problem/15591
+# graph
 from sys import*
 from collections import*
 input = stdin.readline
