@@ -4,12 +4,9 @@ def solution(n, words):
     used = set()
     prev = ''
     for i, word in enumerate(words):
-        if word in used: return [(i%n)+1, (i//n)+1]
-        if prev == '' or prev == word[0]:
-            prev = word[-1]
-            used.add(word)
-        else:
-            return [(i%n)+1, (i//n)+1]
+        if word in used or (prev != word[0] and prev != ''): return [(i%n)+1, (i//n)+1]
+        prev = word[-1]
+        used.add(word)
     return [0, 0]
 
 print(solution(3, ["tank", "kick", "know", "wheel", "land", "dream", "mother", "robot", "tank"]))
