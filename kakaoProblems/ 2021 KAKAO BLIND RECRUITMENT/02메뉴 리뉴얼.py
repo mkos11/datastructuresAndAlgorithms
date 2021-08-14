@@ -1,6 +1,9 @@
 # https://programmers.co.kr/learn/courses/30/lessons/72411
-# 시간초과 날거 같은데????????? 한번 일단 풀어보기 난다 => 담부터 완전 잘 보고 풀기, 안난다 => 담부터 낮은 단계는 일단 풀기
 from itertools import*
+class Node:
+    def __init__(self, cnt=0, ans=[]):
+        self.cnt = 0
+        self.ans = ans
 def check(total, order):
     for t in total:
         if t not in order: return False
@@ -11,14 +14,23 @@ def solution(orders, course):
         for c in course:
             for x in combinations(order, c):
                 total.add(x)
+    max_dic = {}
+    for c in course:
+        max_dic[c] = Node()
     ans = set()
     for t in total:
         cnt = 0
         for order in orders:
             if check(t, order): cnt += 1
-            if cnt >= 2:
-                ans.add(t)
-                break
-    print(ans)
-
-print(solution(	["ABCFG", "AC", "CDE", "ACDE", "BCFG", "ACDEH"], [2, 3, 4]))
+        c = len(t)
+        if max_dic[c].cnt < cnt:
+            max_dic[c].cnt = cnt
+            max_dic[c].ans = [t]
+        elif max_dic[c].cnt == cnt:
+            max_dic[c].ans.append(t)
+    for k, v in max_dic.items():
+        if v.cnt >= 2:
+            for x in v.ans:
+                ans.add(''.join(sorted(x)))
+    return sorted(ans)
+# print(solution(	["ABCFG", "AC", "CDE", "ACDE", "BCFG", "ACDEH"], [2, 3, 4]))
