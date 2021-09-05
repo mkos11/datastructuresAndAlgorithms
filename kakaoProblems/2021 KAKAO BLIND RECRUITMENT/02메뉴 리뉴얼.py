@@ -2,7 +2,7 @@
 from itertools import*
 class Node:
     def __init__(self, cnt=0, ans=[]):
-        self.cnt = 0
+        self.cnt = cnt
         self.ans = ans
 def check(total, order):
     for t in total:

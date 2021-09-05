@@ -1,3 +1,4 @@
+# https://programmers.co.kr/learn/courses/30/lessons/17676W
 class Node:
     def __init__(self, start, end):
         self.start = start
