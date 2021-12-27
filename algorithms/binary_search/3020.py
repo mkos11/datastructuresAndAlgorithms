@@ -2,7 +2,6 @@
 # 이진탐색
 from sys import*
 input = stdin.readline
-
 class Node:
     def __init__(self, val):
         self.min_val = val
@@ -17,10 +16,8 @@ def lower_bound(height, rock):
         else:
             l = mid + 1
     return l
-
 def solve(height, rock):
     return len(rock) - lower_bound(height, rock)
-
 n, h = map(int, input().split())
 up = []
 down = []
